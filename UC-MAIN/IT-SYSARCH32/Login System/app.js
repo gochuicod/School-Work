@@ -17,8 +17,6 @@ let config = {
 
 let db = mysql.createPool(config)
 
-app.get("/",(req,res) => res.sendFile(`${__dirname}/public/login.html`))
-
 app.get("/main",(req,res) => res.sendFile(`${__dirname}/public/index.html`))
 
 app.get("/users",(req,res) => {
