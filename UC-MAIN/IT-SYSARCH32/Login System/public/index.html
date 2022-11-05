@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="container-fluid bg-primary d-flex justify-content-between align-items-center py-2">
+            <a class="navbar-brand fs-4 text-light">USER MANAGEMENT</a>
+            <button type="button" class="btn btn-primary" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+    <main ng-app="app">
+        <section class="container-fluid mt-2 d-flex justify-content-end">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">ADD USER+</button>
+              
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-center">
+                            <span>Add A New User</span>
+                        </div>
+                        <div class="d-flex justify-content-center my-3" ng-controller="register">
+                            <input class="form-control" type="text" name="username" ng-model="username" value="hello" placeholder="Enter username">
+                            <input class="form-control mx-2" type="text" name="password" ng-model="password" placeholder="Enter password">
+                            <button type="submit" class="btn btn-warning" ng-click="register()">Register</button>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </section>
+        
+        <section class="container mt-5">
+            <div ng-controller="index">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th ng-repeat="h in header">{{ h | uppercase }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in users">
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.password }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+<script src="./assets/js/index.js"></script>
+</html>
