@@ -12,28 +12,14 @@
 <body>
     <nav>
         <div class="container-fluid bg-primary d-flex justify-content-between align-items-center py-2">
-            <a class="navbar-brand fs-4 text-light">USER MANAGEMENT</a>
+            <a class="navbar-brand fs-4 text-light fw-bold">USER MANAGEMENT</a>
             <div class="d-flex justify-content-end">
-                <input name="username" type="text" class="username form-control" placeholder="Enter username" required>
-                <input name="password" type="password" class="password form-control mx-2" placeholder="Enter password" required>
+                <input name="username" type="text" class="username form-control" placeholder="Username" required>
+                <input name="password" type="password" class="password form-control mx-2" placeholder="Password" required>
                 <button type="submit" class="btn btn-dark" onclick="login.compare()">Login</button>
             </div>
         </div>
     </nav>
 </body>
-<script>
-    let login = {
-        username: document.querySelector(".username"),
-        password: document.querySelector(".password"),
-        api: "http://localhost:8000/users",
-        compare: async function(){
-            if(this.username.value == "admin" && this.password.value == "user") window.location.href = "http://localhost:8000/main"
-            const sample = await fetch(this.api)
-            const data = await sample.json()
-            data.forEach((item,index,arr) => {
-                if(this.username.value == item.username && this.password.value == item.password) window.location.href = "http://localhost:8000/main"
-            })
-        }
-    }
-</script>
+<script src="./assets/js/index.js"></script>
 </html>
