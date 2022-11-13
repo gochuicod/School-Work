@@ -39,7 +39,7 @@ app.put("/user",(req,res) => {
 app.delete("/user/:id",(req,res) => {
     let sql = `delete from tbluser where id=${req.params.id}`
     db.query(sql, err => err ? res.status(500).json(err) : res.json({"message":"User removed!"}));
-    // db.query(`alter table tbluser auto_increment=1`)
+    // db.query('alter table tbluser auto_increment=1')
 })
 
 app.post("/student",(req,res) => {
@@ -62,5 +62,5 @@ app.put("/student",(req,res) => {
 app.delete("/student/:id",(req,res) => {
     let sql = `delete from tblstudent where idno=${req.params.id}`
     db.query(sql, err => err ? res.status(500).json(err) : res.json({"message":"Student removed!"}))
-    // db.query(`alter table tblstudent auto_increment=1`)
+    // db.query('alter table tblstudent auto_increment=1')
 })

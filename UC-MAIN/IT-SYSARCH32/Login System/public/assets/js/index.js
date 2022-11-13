@@ -1,17 +1,43 @@
 let app = angular.module("app",[]);
 
-app.controller("index",($scope,$http) => {
-    $scope.header=["username","password"];
+app.controller("userList",($scope,$http) => {
+    $scope.header=["id","username","password"];
     $http({
         method:"GET",
-        url:"http://localhost:8000/user"
+        url:"/user"
     }).then(response => {
-        $scope.users=response.data
+        $scope.users=response.data;
+        if(response.data.length === 0) $scope.setDisplay = {"display":"none"}
+        else $scope.setDisplay = {"display":"block"}
+        $scope.remove = id => {
+            $http({
+                method:"DELETE",
+                url:`/user/${id}`
+            }).then(() => location.reload())
+        }
     });
 })
 
-app.controller("register",($scope,$http) => {
-    $scope.register = () => {
+app.controller("studentList",($scope,$http) => {
+    $scope.header=["idno","lastname","firstname","course","level"];
+    $http({
+        method:"GET",
+        url:"/student"
+    }).then(response => {
+        $scope.students=response.data;
+        if(response.data.length === 0) $scope.setDisplay = {"display":"none"}
+        else $scope.setDisplay = {"display":"block"}
+        $scope.remove = idno => {
+            $http({
+                method:"DELETE",
+                url:`/student/${idno}`
+            }).then(() => location.reload())
+        }
+    });
+})
+
+app.controller("registerUser",($scope,$http) => {
+    $scope.registerUser = () => {
         $http({
             method:"POST",
             url:"/user",
@@ -26,16 +52,76 @@ app.controller("register",($scope,$http) => {
     }
 })
 
-let login = {
-    username: document.querySelector(".username"),
-    password: document.querySelector(".password"),
-    api: "http://localhost:8000/user",
-    compare: async function(){
-        const sample = await fetch(this.api)
-        const data = await sample.json()
-        if(this.username.value == "admin" && this.password.value == "user") window.location.href = "http://localhost:8000/homepage"
-        data.forEach(item => { if(this.username.value == item.username && this.password.value == item.password) window.location.href = "http://localhost:8000/homepage" })
+app.controller("registerStudent",($scope,$http) => {
+    $scope.registerStudent = () => {
+        $http({
+            method:"POST",
+            url:"/student",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                lastname: $scope.lastname,
+                firstname: $scope.firstname,
+                course: $scope.course,
+                level: $scope.level
+            }
+        }).then(() => location.reload())
     }
-}
+})
 
-let logout = () => window.location.href = "http://localhost:8000"
+app.controller("updateUser",($scope,$http) => {
+    $scope.updateUser = () => {
+        $http({
+            method:"PUT",
+            url:"/user",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                id: $scope.id,
+                username: $scope.username,
+                password: $scope.password
+            }
+        }).then(() => location.reload())
+    }
+})
+
+app.controller("updateStudent",($scope,$http) => {
+    $scope.updateStudent = () => {
+        $http({
+            method:"PUT",
+            url:"/student",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                idno: $scope.idno,
+                lastname: $scope.lastname,
+                firstname: $scope.firstname,
+                course: $scope.course,
+                level: $scope.level
+            }
+        }).then(() => location.reload())
+    }
+})
+
+app.controller("loginLogoutController",($scope,$http) => {
+    $scope.login = () => {
+        $http({
+            method:"GET",
+            url:"/user"
+        }).then(response => {
+            let data = response.data;
+            let matchCredentials = data.some(element => $scope.username == element.username && $scope.password == element.password)
+            
+            if($scope.username == "admin" && $scope.password == "user") window.location.href = "/homepage";
+            else if (matchCredentials) window.location.href = "/homepage"
+            else {
+                alert("Incorrect username and/or password!")
+                $scope.username = ''; $scope.password = '';
+            }
+        })
+    }
+    $scope.logout = () => window.location.href = "http://localhost:8000"
+})
