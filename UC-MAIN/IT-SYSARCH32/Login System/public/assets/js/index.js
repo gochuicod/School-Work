@@ -1,5 +1,10 @@
 let app = angular.module("app",[]);
 
+app.run($rootScope => {
+    $rootScope.levels = ["1","2","3","4"];
+    $rootScope.courses = ["BSIT","BSCS","BSCPE","BSAMT"]
+})
+
 app.controller("userList",($scope,$http) => {
     $scope.header=["id","username","password"];
     $http({
@@ -52,7 +57,9 @@ app.controller("registerUser",($scope,$http) => {
     }
 })
 
-app.controller("registerStudent",($scope,$http) => {
+app.controller("registerStudent",($scope,$http,$rootScope) => {
+    $scope.courses = $rootScope.courses;
+    $scope.levels = $rootScope.levels;
     $scope.registerStudent = () => {
         $http({
             method:"POST",
@@ -63,8 +70,8 @@ app.controller("registerStudent",($scope,$http) => {
             data: {
                 lastname: $scope.lastname,
                 firstname: $scope.firstname,
-                course: $scope.course,
-                level: $scope.level
+                course: $scope.selectedCourse,
+                level: $scope.selectedLevel
             }
         }).then(() => location.reload())
     }
@@ -87,7 +94,9 @@ app.controller("updateUser",($scope,$http) => {
     }
 })
 
-app.controller("updateStudent",($scope,$http) => {
+app.controller("updateStudent",($scope,$http,$rootScope) => {
+    $scope.courses = $rootScope.courses;
+    $scope.levels = $rootScope.levels;
     $scope.updateStudent = () => {
         $http({
             method:"PUT",
@@ -99,8 +108,8 @@ app.controller("updateStudent",($scope,$http) => {
                 idno: $scope.idno,
                 lastname: $scope.lastname,
                 firstname: $scope.firstname,
-                course: $scope.course,
-                level: $scope.level
+                course: $scope.selectedCourse,
+                level: $scope.selectedLevel
             }
         }).then(() => location.reload())
     }

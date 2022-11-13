@@ -55,13 +55,19 @@
                             <span>Add A New Student</span>
                         </div>
                         <div class="modal-body">
-                            <div class="d-flex justify-content-center mb-3">
+                            <div class="d-flex justify-content-center my-3">
                                 <input class="form-control" type="text" name="lastname" ng-model="lastname" placeholder="Lastname">
-                                <input class="form-control mx-2" type="text" name="firstname" ng-model="firstname" placeholder="Firstname">
                             </div>
                             <div class="d-flex justify-content-center">
-                                <input class="form-control" type="text" name="course" ng-model="course" placeholder="Course">
-                                <input class="form-control mx-2" type="text" name="level" ng-model="level" placeholder="Year Level">
+                                <input class="form-control" type="text" name="firstname" ng-model="firstname" placeholder="Firstname">
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center my-3">
+                                <label for="course">Course</label>
+                                <select class="ms-3 form-select" ng-model="selectedCourse" ng-options="studentCourse for studentCourse in courses" id="course"></select>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <label for="level">Year</label>
+                                <select class="ms-3 form-select" ng-model="selectedLevel" ng-options="studentLevel for studentLevel in levels" id="level"></select>
                             </div>
                         </div>
                         <div class="modal-footer justify-content-center">
@@ -117,11 +123,13 @@
                             <div class="d-flex justify-content-center">
                                 <input class="form-control" type="text" name="firstname" ng-model="firstname" placeholder="Firstname">
                             </div>
-                            <div class="d-flex justify-content-center my-3">
-                                <input class="form-control" type="text" name="course" ng-model="course" placeholder="Course">
+                            <div class="d-flex justify-content-center align-items-center my-3">
+                                <label for="course">Course</label>
+                                <select class="ms-3 form-select" ng-model="selectedCourse" ng-options="studentCourse for studentCourse in courses" id="course"></select>
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <input class="form-control" type="text" name="level" ng-model="level" placeholder="Year Level">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <label for="level">Year</label>
+                                <select class="ms-3 form-select" ng-model="selectedLevel" ng-options="studentLevel for studentLevel in levels" id="level"></select>
                             </div>
                         </div>
                         <div class="modal-footer justify-content-center">
@@ -151,7 +159,7 @@
                             <td>{{ student.level }}</td>
                             <td>
                                 <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target=".updateStudentModal">&#9998</button>
-                                <button class="btn btn-danger" ng-click="remove(student.idno)">X</button>
+                                <button class="btn btn-danger" ng-click="remove(student.idno)">&times;</button>
                             </td>
                         </tr>
                     </tbody>
@@ -178,7 +186,7 @@
                             <td>{{ user.password }}</td>
                             <td>
                                 <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target=".updateUserModal">&#9998</button>
-                                <button class="btn btn-danger" ng-click="remove(user.id)">X</button>
+                                <button class="btn btn-danger" ng-click="remove(user.id)">&times;</button>
                             </td>
                         </tr>
                     </tbody>
