@@ -1,0 +1,10 @@
+nav::before {
+    display: block;
+    content: '';
+    height: .4rem;
+}
+
+.w-20 { width: 20% !important; }
+
+.mx-5-rem { margin: 0rem 5rem !important; }
+.py-5-rem { padding: 5rem 0rem !important; }
