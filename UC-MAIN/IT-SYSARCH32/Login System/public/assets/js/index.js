@@ -14,13 +14,18 @@ app.controller("userList",($scope,$http) => {
         $scope.users=response.data;
         if(response.data.length === 0) $scope.setDisplay = {"display":"none"}
         else $scope.setDisplay = {"display":"block"}
-        $scope.remove = id => {
-            $http({
-                method:"DELETE",
-                url:`/user/${id}`
-            }).then(() => location.reload())
-        }
     });
+    $scope.remove = id => {
+        $http({
+            method:"DELETE",
+            url:`/user/${id}`
+        }).then(() => {
+            $http({
+                method:"GET",
+                url:"/user"
+            }).then(response => $scope.users=response.data)
+        })
+    }
 })
 
 app.controller("studentList",($scope,$http) => {
@@ -32,13 +37,18 @@ app.controller("studentList",($scope,$http) => {
         $scope.students=response.data;
         if(response.data.length === 0) $scope.setDisplay = {"display":"none"}
         else $scope.setDisplay = {"display":"block"}
-        $scope.remove = idno => {
-            $http({
-                method:"DELETE",
-                url:`/student/${idno}`
-            }).then(() => location.reload())
-        }
     });
+    $scope.remove = idno => {
+        $http({
+            method:"DELETE",
+            url:`/student/${idno}`
+        }).then(() => {
+            $http({
+                method:"GET",
+                url:"/student"
+            }).then(response => $scope.students=response.data)
+        })
+    }
 })
 
 app.controller("registerUser",($scope,$http) => {
