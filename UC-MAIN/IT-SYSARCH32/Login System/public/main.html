@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management | Homepage</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-route/1.8.3/angular-route.min.js" integrity="sha512-y1qD3hz/IAf8W4+/UMLZ+CN6LIoUGi7srWJ3r1R17Hid8x0yXe+1B5ZelkaL1Mjzedzu0Cg3HBvDG02SAgSzBw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body ng-app="app">
+    <nav>
+        <div class="container-fluid bg-primary d-flex justify-content-between align-items-center py-2 fixed-top">
+            <a class="navbar-brand fs-4 text-light me-3 fw-bold">USER MANAGEMENT</a>
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn bg-white me-2" data-bs-toggle="modal" data-bs-target=".studentModal">ADD STUDENT</button>
+                <button type="button" class="btn bg-white me-2" data-bs-toggle="modal" data-bs-target=".userModal">ADD USER</button>
+                <form action="/" method="GET">
+                    <button type="submit" class="btn btn-dark">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <!-- This section is for the user modal -->
+        <section>
+            <div class="userModal modal fade" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" ng-controller="registerUser">
+                        <div class="modal-header justify-content-center">
+                            <span class="fw-bold fs-3">New User</span>
+                        </div>
+                        <div class="modal-body m-3">
+                            <div class="d-flex justify-content-center">
+                                <input class="form-control" type="text" name="username" ng-model="username" value="hello" placeholder="Username">
+                                <input class="form-control mx-2" type="text" name="password" ng-model="password" placeholder="Password">
+                            </div>
+                            <div class="d-flex justify-content-center">
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="submit" class="btn btn-warning" ng-click="registerUser()">Register</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- This section is for the student modal -->
+        <section>
+            <div class="studentModal modal fade" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" ng-controller="registerStudent">
+                        <div class="modal-header justify-content-center">
+                            <span class="fw-bold fs-3">New Student</span>
+                        </div>
+                        <div class="modal-body m-5">
+                            <div class="d-flex justify-content-center mb-3">
+                                <input class="form-control" type="text" name="lastname" ng-model="lastname" placeholder="Lastname">
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <input class="form-control" type="text" name="firstname" ng-model="firstname" placeholder="Firstname">
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center my-3">
+                                <label for="course">Course</label>
+                                <select class="ms-3 form-select" ng-model="selectedCourse" ng-options="studentCourse for studentCourse in courses" id="course"></select>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <label for="level">Year</label>
+                                <select class="ms-3 form-select" ng-model="selectedLevel" ng-options="studentLevel for studentLevel in levels" id="level"></select>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="submit" class="btn btn-warning" ng-click="registerStudent()">Register</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- This section is for the UPDATE USER modal -->
+        <section>
+            <div class="updateUserModal modal fade" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" ng-controller="updateUser">
+                        <div class="modal-header justify-content-center">
+                            <span class="fw-bold fs-3">Edit User</span>
+                        </div>
+                        <div class="modal-body m-5">
+                            <div class="d-flex justify-content-center">
+                                <input class="form-control" type="text" name="id" ng-model="id" placeholder="ID">
+                            </div>
+                            <div class="d-flex justify-content-center my-3">
+                                <input class="form-control" type="text" name="username" ng-model="username" placeholder="Username">
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <input class="form-control" type="text" name="password" ng-model="password" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="submit" class="btn btn-warning" ng-click="updateUser()">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- This section is for the UPDATE STUDENT modal -->
+        <section>
+            <div class="updateStudentModal modal fade" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" ng-controller="updateStudent">
+                        <div class="modal-header justify-content-center">
+                            <span class="fw-bold fs-3">Edit Student</span>
+                        </div>
+                        <div class="modal-body m-5">
+                            <div class="d-flex justify-content-center">
+                                <input class="form-control" type="text" name="idno" ng-model="idno" placeholder="IDNO">
+                            </div>
+                            <div class="d-flex justify-content-center my-3">
+                                <input class="form-control" type="text" name="lastname" ng-model="lastname" placeholder="Lastname">
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <input class="form-control" type="text" name="firstname" ng-model="firstname" placeholder="Firstname">
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center my-3">
+                                <label for="course">Course</label>
+                                <select class="ms-3 form-select" ng-model="selectedCourse" ng-options="studentCourse for studentCourse in courses" id="course"></select>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <label for="level">Year</label>
+                                <select class="ms-3 form-select" ng-model="selectedLevel" ng-options="studentLevel for studentLevel in levels" id="level"></select>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="submit" class="btn btn-warning" ng-click="updateStudent()">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- This section displays the list of students -->
+        <section class="mt-5" ng-controller="studentList">
+            <div ng-style="setDisplay">
+                <table class="table table-striped text-center shadow">
+                    <caption>STUDENTS TABLE</caption>
+                    <thead>
+                        <tr class="table-dark">
+                            <th ng-repeat="h in header">{{ h | uppercase }}</th>
+                            <th></th>
+                        </tr>
+                    <tbody>
+                        <tr ng-repeat="student in students">
+                            <td>{{ student.idno }}</td>
+                            <td>{{ student.lastname }}</td>
+                            <td>{{ student.firstname }}</td>
+                            <td>{{ student.course }}</td>
+                            <td>{{ student.level }}</td>
+                            <td>
+                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target=".updateStudentModal">&#9998</button>
+                                <button class="btn btn-danger" ng-click="remove(student.idno)">&times;</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    </thead>
+                </table>
+            </div>
+        </section>
+        
+        <!-- This section displays the list of users -->
+        <section class="mt-5" ng-controller="userList">
+            <div ng-style="setDisplay">
+                <table class="table table-striped text-center shadow">
+                    <caption>USERS TABLE</caption>
+                    <thead>
+                        <tr class="table-dark">
+                            <th ng-repeat="h in header">{{ h | uppercase }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in users">
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.password }}</td>
+                            <td>
+                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target=".updateUserModal">&#9998</button>
+                                <button class="btn btn-danger" ng-click="remove(user.id)">&times;</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+<script src="./assets/js/index.js"></script>
+</html>

@@ -11,13 +11,15 @@ let config = {
 }
 let db = mysql.createPool(config)
 
-let server = app.listen(port, () => require("dns").lookup(require("os").hostname(), (err,addr,fam) => console.log(`http://${addr}:${port}`)))
+app.listen(port, () => require("dns").lookup(require("os").hostname(), (err,addr,fam) => console.log(`http://${addr}:${port}`)))
 
-app.use(express.static('./public',{index:'login.html'}))
+app.use(express.static(`${__dirname}/public`))
 app.use(bodyparser.urlencoded({"extended":true}))
 app.use(bodyparser.json())
 
-app.get("/homepage",(req,res) => res.sendFile(`${__dirname}/public/index.html`))
+app.get("/",(req,res) => res.render("index.html"))
+
+app.get("/main",(req,res) => res.sendFile(`${__dirname}/public/main.html`))
 
 app.post("/user",(req,res) => {
     let users = req.body;
@@ -63,4 +65,19 @@ app.delete("/student/:id",(req,res) => {
     let sql = `delete from tblstudent where idno=${req.params.id}`
     db.query(sql, err => err ? res.status(500).json(err) : res.json({"message":"Student removed!"}))
     db.query('alter table tblstudent auto_increment=1')
+})
+
+app.post("/login",(req,res) => {
+    let { username, password } = req.body;
+    let sql = `select * from tbluser where username='${username}' and password='${password}'`;
+    if(username == "admin" && password == "user") res.redirect("/main")
+    else{
+        db.query(sql,(err,results) => {
+            if(err) return res.status(500).json("Login Failed")
+            else {
+                if(results.length > 0) res.redirect("/main")
+                else res.redirect("/?message=LOGIN FAILED")
+            }
+        })
+    }
 })

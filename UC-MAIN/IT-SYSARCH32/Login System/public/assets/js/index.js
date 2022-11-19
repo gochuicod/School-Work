@@ -124,23 +124,3 @@ app.controller("updateStudent",($scope,$http,$rootScope) => {
         }).then(() => location.reload())
     }
 })
-
-app.controller("loginLogoutController",($scope,$http) => {
-    $scope.login = () => {
-        $http({
-            method:"GET",
-            url:"/user"
-        }).then(response => {
-            let data = response.data;
-            let matchCredentials = data.some(element => $scope.username == element.username && $scope.password == element.password)
-            
-            if($scope.username == "admin" && $scope.password == "user") window.location.href = "/homepage";
-            else if (matchCredentials) window.location.href = "/homepage"
-            else {
-                alert("Incorrect username and/or password!")
-                $scope.username = ''; $scope.password = '';
-            }
-        })
-    }
-    $scope.logout = () => window.location.href = "http://localhost:8000"
-})
