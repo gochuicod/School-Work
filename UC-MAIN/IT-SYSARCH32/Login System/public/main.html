@@ -29,21 +29,21 @@
         <section>
             <div class="userModal modal fade" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content" ng-controller="registerUser">
+                    <div class="modal-content">
                         <div class="modal-header justify-content-center">
                             <span class="fw-bold fs-3">New User</span>
                         </div>
-                        <div class="modal-body m-3">
-                            <div class="d-flex justify-content-center">
-                                <input class="form-control" type="text" name="username" ng-model="username" value="hello" placeholder="Username">
-                                <input class="form-control mx-2" type="text" name="password" ng-model="password" placeholder="Password">
+                        <form action="/user" method="POST">
+                            <div class="modal-body m-3">
+                                <div class="d-flex justify-content-center">
+                                    <input class="form-control" type="text" name="username" placeholder="Username">
+                                    <input class="form-control mx-2" type="text" name="password" placeholder="Password">
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-center">
+                            <div class="modal-footer justify-content-center">
+                                <button type="submit" class="btn btn-warning">Register</button>
                             </div>
-                        </div>
-                        <div class="modal-footer justify-content-center">
-                            <button type="submit" class="btn btn-warning" ng-click="registerUser()">Register</button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -53,29 +53,44 @@
         <section>
             <div class="studentModal modal fade" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content" ng-controller="registerStudent">
+                    <div class="modal-content">
                         <div class="modal-header justify-content-center">
                             <span class="fw-bold fs-3">New Student</span>
                         </div>
-                        <div class="modal-body m-5">
-                            <div class="d-flex justify-content-center mb-3">
-                                <input class="form-control" type="text" name="lastname" ng-model="lastname" placeholder="Lastname">
+                        <form action="/student" method="POST" enctype="multipart/form-data">
+                            <div class="modal-body m-5">
+                                <div class="d-flex justify-content-center">
+                                    <input type="file" class="form-control" name="image">
+                                </div>
+                                <div class="d-flex justify-content-center my-3">
+                                    <input class="form-control" type="text" name="lastname" placeholder="Lastname">
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <input class="form-control" type="text" name="firstname" placeholder="Firstname">
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center my-3">
+                                    <label for="course">Course</label>
+                                    <select class="form-select ms-3" name="course">
+                                        <option value="BSIT">BSIT</option>
+                                        <option value="BSAMT">BSAMT</option>
+                                        <option value="BSCS">BSCS</option>
+                                        <option value="BSED">BSED</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <label for="level">Year</label>
+                                    <select class="form-select ms-3" name="level">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <input class="form-control" type="text" name="firstname" ng-model="firstname" placeholder="Firstname">
+                            <div class="modal-footer justify-content-center">
+                                <button type="submit" class="btn btn-warning">Submit</button>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center my-3">
-                                <label for="course">Course</label>
-                                <select class="ms-3 form-select" ng-model="selectedCourse" ng-options="studentCourse for studentCourse in courses" id="course"></select>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center">
-                                <label for="level">Year</label>
-                                <select class="ms-3 form-select" ng-model="selectedLevel" ng-options="studentLevel for studentLevel in levels" id="level"></select>
-                            </div>
-                        </div>
-                        <div class="modal-footer justify-content-center">
-                            <button type="submit" class="btn btn-warning" ng-click="registerStudent()">Register</button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -151,11 +166,11 @@
                     <thead>
                         <tr class="table-dark">
                             <th ng-repeat="h in header">{{ h | uppercase }}</th>
-                            <th></th>
                         </tr>
                     <tbody>
                         <tr ng-repeat="student in students">
                             <td>{{ student.idno }}</td>
+                            <td><img class="rounded" src="{{ student.imagepath }}" width="200px" height="150px"></td>
                             <td>{{ student.lastname }}</td>
                             <td>{{ student.firstname }}</td>
                             <td>{{ student.course }}</td>
@@ -179,7 +194,6 @@
                     <thead>
                         <tr class="table-dark">
                             <th ng-repeat="h in header">{{ h | uppercase }}</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -198,5 +212,5 @@
         </section>
     </main>
 </body>
-<script src="./assets/js/index.js"></script>
+<script src="./assets/js/main.js"></script>
 </html>

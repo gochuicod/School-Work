@@ -1,6 +1,8 @@
-const express = require("express"), mysql = require("mysql"), bodyparser = require("body-parser"), path = require("path");
+const express = require('express'), mysql = require('mysql'), bodyparser = require('body-parser'), multer = require('multer');
 
 let port = process.env.port || 8000, app = express()
+
+// This section handles database connection
 let config = {
     host: "localhost",
     user: "root",
@@ -10,6 +12,17 @@ let config = {
     multipleStatement: true
 }
 let db = mysql.createPool(config)
+
+// This section handles file data
+const fileStorageEngine = multer.diskStorage({
+    destination: (req,file,cb) => {
+        cb(null,'./public/assets/images')
+    },
+    filename: (req,file,cb) => {
+        cb(null, `${Date.now()}--${file.originalname}`)
+    }
+})
+const upload = multer({storage:fileStorageEngine })
 
 app.listen(port, () => require("dns").lookup(require("os").hostname(), (err,addr,fam) => console.log(`http://${addr}:${port}`)))
 
@@ -22,9 +35,9 @@ app.get("/",(req,res) => res.render("index.html"))
 app.get("/main",(req,res) => res.sendFile(`${__dirname}/public/main.html`))
 
 app.post("/user",(req,res) => {
-    let users = req.body;
-    let sql = `insert into tbluser (username,password) values ('${users.username}','${users.password}')`;
-    db.query(sql, err => err ? res.status(500).json(err) : res.json({"message":"New user added!"}))
+    let { username, password } = req.body;
+    let sql = `insert into tbluser (username,password) values ('${username}','${password}')`;
+    db.query(sql, err => err ? res.status(500).json(err) : res.redirect("/main"))
 })
 
 app.get("/user",(req,res) => {
@@ -33,8 +46,8 @@ app.get("/user",(req,res) => {
 })
 
 app.put("/user",(req,res) => {
-    let users = req.body;
-    let sql = `update tbluser set username='${users.username}', password='${users.password}' where id=${users.id}`;
+    let { username, password, id } = req.body;
+    let sql = `update tbluser set username='${username}', password='${password}' where id=${id}`;
     db.query(sql, err => err ? res.status(500).json(err) : res.json({"message":"User updated!"}));
 })
 
@@ -44,10 +57,10 @@ app.delete("/user/:id",(req,res) => {
     db.query('alter table tbluser auto_increment=1')
 })
 
-app.post("/student",(req,res) => {
-    let students = req.body;
-    let sql = `insert into tblstudent (lastname,firstname,course,level) values ('${students.lastname}','${students.firstname}','${students.course}','${students.level}')`;
-    db.query(sql, err => err ? res.status(500).json(err) : res.json({"message":"New studend added!"}))
+app.post("/student",upload.single('image'),(req,res) => {
+    let { lastname, firstname, course, level } = req.body, { path } = req.file;
+    let sql = `insert into tblstudent (lastname,firstname,course,level,imagepath) values ('${lastname}','${firstname}','${course}','${level}','${path.slice(7,path.length)}')`;
+    db.query(sql, err => err ? res.status(500).json(err) : res.redirect("/main"))
 })
 
 app.get("/student",(req,res) => {
@@ -56,8 +69,8 @@ app.get("/student",(req,res) => {
 })
 
 app.put("/student",(req,res) => {
-    let students = req.body;
-    let sql = `update tblstudent set lastname='${students.lastname}', firstname='${students.firstname}', course='${students.course}', level='${students.level}' where idno=${students.idno}`
+    let { lastname, firstname, course, level } = req.body;
+    let sql = `update tblstudent set lastname='${lastname}', firstname='${firstname}', course='${course}', level='${level}' where idno=${idno}`
     db.query(sql, err => err ? res.status(500).json(err) : res.json({"message":"Student updated!"}))
 })
 
