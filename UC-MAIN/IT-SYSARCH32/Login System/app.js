@@ -1,4 +1,4 @@
-const express = require('express'), mysql = require('mysql'), bodyparser = require('body-parser'), multer = require('multer');
+const express = require('express'), mysql = require('mysql'), bodyparser = require('body-parser'), multer = require('multer'), fs = require('fs');
 
 let port = process.env.port || 8000, app = express()
 
@@ -13,16 +13,17 @@ let config = {
 }
 let db = mysql.createPool(config)
 
+// This section checks if desired image directory exists, otherwise creates one
+fs.access("./public/assets/images", error => {
+    error ? fs.mkdirSync('./public/assets/images', { recursive: true }) : console.log("Directory exists.")
+})
+
 // This section handles file data
 const fileStorageEngine = multer.diskStorage({
-    destination: (req,file,cb) => {
-        cb(null,'./public/assets/images')
-    },
-    filename: (req,file,cb) => {
-        cb(null, `${Date.now()}--${file.originalname}`)
-    }
+    destination: (req,file,cb) => cb(null,'./public/assets/images'),
+    filename: (req,file,cb) => cb(null, `${Date.now()}--${file.originalname}`)
 })
-const upload = multer({storage:fileStorageEngine })
+const upload = multer({storage:fileStorageEngine})
 
 app.listen(port, () => require("dns").lookup(require("os").hostname(), (err,addr,fam) => console.log(`http://${addr}:${port}`)))
 
@@ -69,7 +70,7 @@ app.get("/student",(req,res) => {
 })
 
 app.put("/student",(req,res) => {
-    let { lastname, firstname, course, level } = req.body;
+    let { idno, lastname, firstname, course, level } = req.body;
     let sql = `update tblstudent set lastname='${lastname}', firstname='${firstname}', course='${course}', level='${level}' where idno=${idno}`
     db.query(sql, err => err ? res.status(500).json(err) : res.json({"message":"Student updated!"}))
 })
