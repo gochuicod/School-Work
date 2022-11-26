@@ -1,7 +1,7 @@
-let app = angular.module("app",[]), btnToggleVideo = document.querySelector(".btnToggleVideo");
+let app = angular.module("app",[]), toggle = false;
+let btnClose = document.querySelector(".btnClose"), btnToggleVideo = document.querySelector(".btnToggleVideo");
 let messageprompt = document.querySelector(".messageprompt"), yesprompt = document.querySelector(".yesprompt");
 let noprompt = document.querySelector(".noprompt"), camera = document.querySelector(".camera");
-let toggle = false;
 
 app.run($rootScope => {
     $rootScope.levels = ["1","2","3","4"];
@@ -82,6 +82,7 @@ btnToggleVideo.addEventListener("click", () => {
         hide(camera)
     }
 })
+btnClose.addEventListener("click", () => Webcam.reset('.camera'))
 document.querySelector(".btnSnapshot").addEventListener("click", () => {
     Webcam.freeze();
     show(messageprompt)
