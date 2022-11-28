@@ -1,7 +1,7 @@
 let app = angular.module("app",[]), toggle = false;
-let btnClose = document.querySelector(".btnClose"), btnToggleVideo = document.querySelector(".btnToggleVideo");
-let messageprompt = document.querySelector(".messageprompt"), yesprompt = document.querySelector(".yesprompt");
-let noprompt = document.querySelector(".noprompt"), camera = document.querySelector(".camera");
+let btnToggleVideo = document.querySelector(".btnToggleVideo"), messageprompt = document.querySelector(".messageprompt");
+let yesprompt = document.querySelector(".yesprompt"), noprompt = document.querySelector(".noprompt");
+let camera = document.querySelector(".camera");
 
 app.run($rootScope => {
     $rootScope.levels = ["1","2","3","4"];
@@ -60,13 +60,14 @@ hide(yesprompt)
 hide(noprompt)
 
 Webcam.set({
-    width: 500,
+    width: 765,
     height: 480,
     dest_width: 1080,
     dest_height: 720,
     image_format: 'jpeg',
-    jpeg_quality: 100
-});
+    jpeg_quality: 100,
+    flip_horiz: true
+})
 
 btnToggleVideo.addEventListener("click", () => {
     if(btnToggleVideo.children[0].classList.contains("bi-camera-video-off-fill")){
@@ -82,19 +83,30 @@ btnToggleVideo.addEventListener("click", () => {
         hide(camera)
     }
 })
-btnClose.addEventListener("click", () => Webcam.reset('.camera'))
+
+document.querySelector(".btnClose").addEventListener("click", () => {
+    btnToggleVideo.children[0].setAttribute("class","bi bi-camera-video-off-fill")
+    Webcam.reset('.camera')
+    hide(messageprompt)
+    hide(yesprompt)
+    hide(noprompt)
+    hide(camera)
+})
+
 document.querySelector(".btnSnapshot").addEventListener("click", () => {
     Webcam.freeze();
     show(messageprompt)
     show(yesprompt)
     show(noprompt)
 })
+
 yesprompt.addEventListener("click", () => {
     hide(messageprompt)
     hide(yesprompt)
     hide(noprompt)
     Webcam.snap(data_uri => download(data_uri))
 })
+
 noprompt.addEventListener("click", () => {
     hide(messageprompt)
     hide(yesprompt)
