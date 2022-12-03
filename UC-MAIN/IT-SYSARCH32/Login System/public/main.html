@@ -8,7 +8,6 @@
     <script src="./assets/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./assets/angular/angular.min.js"></script>
     <script type="text/javascript" src="./assets/webcamjs/webcam.min.js"></script>
-    <script src="./assets/downloadjs/download.min.js"></script>
     <link rel="stylesheet" href="./assets/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./assets/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/styles.css">
@@ -18,7 +17,6 @@
         <div class="container-fluid bg-primary d-flex justify-content-between align-items-center py-2 fixed-top">
             <a class="navbar-brand fs-4 text-light me-3 fw-bold">USER MANAGEMENT</a>
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn bg-white me-2 btnCamera" data-bs-toggle="modal" data-bs-target=".cameraModal"><i class="bi bi-camera-fill"></i></button>
                 <button type="button" class="btn bg-white me-2" data-bs-toggle="modal" data-bs-target=".studentModal">ADD STUDENT</button>
                 <button type="button" class="btn bg-white me-2" data-bs-toggle="modal" data-bs-target=".userModal">ADD USER</button>
                 <form action="/" method="GET">
@@ -33,18 +31,17 @@
             <div class="userModal modal fade" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header justify-content-center">
-                            <span class="fw-bold fs-3">New User</span>
-                        </div>
                         <form action="/user" method="POST">
                             <div class="modal-body m-3">
                                 <div class="d-flex justify-content-center">
                                     <input class="form-control" type="text" name="username" placeholder="Username" required>
-                                    <input class="form-control mx-2" type="text" name="password" placeholder="Password" required>
                                 </div>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-warning">Register</button>
+                                <div class="d-flex justify-content-center my-3">
+                                    <input class="form-control" type="text" name="password" placeholder="Password" required>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-warning">Register</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -54,68 +51,45 @@
 
         <!-- This section is for the student modal -->
         <section>
-            <div class="studentModal modal fade" tabindex="-1">
+            <div class="studentModal modal modal-xl fade" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header justify-content-center">
-                            <span class="fw-bold fs-3">New Student</span>
-                        </div>
-                        <form action="/student" method="POST" enctype="multipart/form-data">
-                            <div class="modal-body m-5">
-                                <div class="d-flex justify-content-center">
-                                    <input type="file" class="form-control" name="image" accept="image/png, image/jpeg, image/jpg" required>
+                        <div class="modal-body">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="camera rounded bg-dark"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-center mt-3">
+                                        <button class="capture btn btn-dark me-3">Capture</button>
+                                        <button class="reset btn btn-dark">Retake</button>
+                                        <button class="upload btn btn-dark mx-3">Upload</button>
+                                        <button class="video btn btn-danger"><i class="bi bi-camera-video-off-fill"></i></button>
+                                    </div>
                                 </div>
-                                <div class="d-flex justify-content-center my-3">
-                                    <input class="form-control" type="text" name="lastname" placeholder="Lastname" required>
-                                </div>
-                                <div class="d-flex justify-content-center">
-                                    <input class="form-control" type="text" name="firstname" placeholder="Firstname" required>
-                                </div>
-                                <div class="d-flex justify-content-center align-items-center my-3">
-                                    <label for="course">Course</label>
-                                    <select class="form-select ms-3" name="course">
-                                        <option value="BSIT">BSIT</option>
-                                        <option value="BSAMT">BSAMT</option>
-                                        <option value="BSCS">BSCS</option>
-                                        <option value="BSED">BSED</option>
-                                    </select>
-                                </div>
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <label for="level">Year</label>
-                                    <select class="form-select ms-3" name="level">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select>
+                                <div class="col">
+                                    <input class="lastname form-control my-3" type="text" name="lastname" placeholder="Lastname" required>
+                                    <input class="firstname form-control" type="text" name="firstname" placeholder="Firstname" required>
+                                    <div class="d-flex justify-content-center my-3">
+                                        <label for="course">Course</label>
+                                        <select class="course form-select ms-3" name="course">
+                                            <option value="BSIT">BSIT</option>
+                                            <option value="BSAMT">BSAMT</option>
+                                            <option value="BSCS">BSCS</option>
+                                            <option value="BSED">BSED</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <label for="level">Year</label>
+                                        <select class="level form-select ms-3" name="level">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-warning">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- This section is for the camera modal -->
-        <section>
-            <div class="cameraModal modal modal-lg fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content py-3">
-                        <div class="d-flex justify-content-center">
-                            <div class="camera rounded"></div>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center my-3">
-                            <span class="messageprompt fs-6">Keep this image?</span>
-                            <button class="yesprompt btn btn-sm btn-dark mx-3">Yes</button>
-                            <button class="noprompt btn btn-sm btn-dark">No</button>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <button class="btnSnapshot btn btn-secondary" type="button"><i class="bi bi-camera-fill"></i></button>
-                            <button class="btnToggleVideo btn btn-warning mx-3" type="button"><i class="bi bi-camera-video-off-fill"></i></button>
-                            <button class="btnClose btn btn-danger" type="button" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -127,22 +101,16 @@
             <div class="updateUserModal modal fade" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content" ng-controller="updateUser">
-                        <div class="modal-header justify-content-center">
-                            <span class="fw-bold fs-3">Edit User</span>
-                        </div>
-                        <div class="modal-body m-5">
+                        <div class="modal-body m-3">
                             <div class="d-flex justify-content-center">
-                                <input class="form-control" type="text" name="id" ng-model="id" placeholder="ID">
-                            </div>
-                            <div class="d-flex justify-content-center my-3">
                                 <input class="form-control" type="text" name="username" ng-model="username" placeholder="Username">
                             </div>
-                            <div class="d-flex justify-content-center">
+                            <div class="d-flex justify-content-center my-3">
                                 <input class="form-control" type="text" name="password" ng-model="password" placeholder="Password">
                             </div>
-                        </div>
-                        <div class="modal-footer justify-content-center">
-                            <button type="submit" class="btn btn-warning" ng-click="updateUser()">Update</button>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-warning" ng-click="updateUser()">Update</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -154,12 +122,9 @@
             <div class="updateStudentModal modal fade" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content" ng-controller="updateStudent">
-                        <div class="modal-header justify-content-center">
-                            <span class="fw-bold fs-3">Edit Student</span>
-                        </div>
-                        <div class="modal-body m-5">
+                        <div class="modal-body">
                             <div class="d-flex justify-content-center">
-                                <input class="form-control" type="text" name="idno" ng-model="idno" placeholder="IDNO">
+                                <img class="rounded img-fluid" src="{{ image }}" alt="">
                             </div>
                             <div class="d-flex justify-content-center my-3">
                                 <input class="form-control" type="text" name="lastname" ng-model="lastname" placeholder="Lastname">
@@ -175,9 +140,9 @@
                                 <label for="level">Year</label>
                                 <select class="ms-3 form-select" ng-model="selectedLevel" ng-options="studentLevel for studentLevel in levels" id="level"></select>
                             </div>
-                        </div>
-                        <div class="modal-footer justify-content-center">
-                            <button type="submit" class="btn btn-warning" ng-click="updateStudent()">Update</button>
+                            <div class="d-flex justify-content-center mt-3">
+                                <button type="submit" class="btn btn-warning" ng-click="updateStudent()">Update</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -195,14 +160,12 @@
                         </tr>
                     <tbody>
                         <tr ng-repeat="student in students">
-                            <td>{{ student.idno }}</td>
-                            <td><img class="rounded border border-2 border-dark" src="{{ student.imagepath }}" width="200px" height="150px"></td>
                             <td>{{ student.lastname }}</td>
                             <td>{{ student.firstname }}</td>
                             <td>{{ student.course }}</td>
                             <td>{{ student.level }}</td>
                             <td>
-                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target=".updateStudentModal"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target=".updateStudentModal" ng-click="updateStudent(student.idno,student.imagepath)"><i class="bi bi-pencil-square"></i></button>
                                 <button class="btn btn-danger" ng-click="remove(student.idno)">&times;</button>
                             </td>
                         </tr>
@@ -224,11 +187,10 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="user in users">
-                            <td>{{ user.id }}</td>
                             <td>{{ user.username }}</td>
                             <td>{{ user.password }}</td>
                             <td>
-                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target=".updateUserModal"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target=".updateUserModal" ng-click="updateUser(user.id)"><i class="bi bi-pencil-square"></i></button>
                                 <button class="btn btn-danger" ng-click="remove(user.id)">&times;</button>
                             </td>
                         </tr>
