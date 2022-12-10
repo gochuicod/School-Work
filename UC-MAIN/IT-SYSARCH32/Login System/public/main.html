@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management | Homepage</title>
+    <title>Homepage | Student Management</title>
     <script src="./assets/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./assets/angular/angular.min.js"></script>
     <script type="text/javascript" src="./assets/webcamjs/webcam.min.js"></script>
@@ -15,7 +15,7 @@
 <body ng-app="app">
     <nav>
         <div class="container-fluid bg-primary d-flex justify-content-between align-items-center py-2 fixed-top">
-            <a class="navbar-brand fs-4 text-light me-3 fw-bold">USER MANAGEMENT</a>
+            <a class="navbar-brand fs-4 text-light me-3 fw-bold">STUDENT MANAGEMENT</a>
             <div class="d-flex justify-content-end">
                 <button type="button" class="btn bg-white me-2" data-bs-toggle="modal" data-bs-target=".studentModal">ADD STUDENT</button>
                 <button type="button" class="btn bg-white me-2" data-bs-toggle="modal" data-bs-target=".userModal">ADD USER</button>
@@ -28,7 +28,7 @@
     <main>
         <!-- This section is for the user modal -->
         <section>
-            <div class="userModal modal fade" tabindex="-1">
+            <div class="userModal modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <form action="/user" method="POST">
@@ -40,7 +40,8 @@
                                     <input class="form-control" type="text" name="password" placeholder="Password" required>
                                 </div>
                                 <div class="d-flex justify-content-center">
-                                    <button type="submit" class="btn btn-warning">Register</button>
+                                    <button type="submit" class="btn btn-warning me-3">Register</button>
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
                         </form>
@@ -51,7 +52,7 @@
 
         <!-- This section is for the student modal -->
         <section>
-            <div class="studentModal modal modal-xl fade" tabindex="-1">
+            <div class="studentModal modal modal-xl fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body">
@@ -61,10 +62,11 @@
                                         <div class="camera rounded bg-dark"></div>
                                     </div>
                                     <div class="d-flex justify-content-center mt-3">
-                                        <button class="capture btn btn-dark me-3">Capture</button>
-                                        <button class="reset btn btn-dark">Retake</button>
-                                        <button class="upload btn btn-dark mx-3">Upload</button>
-                                        <button class="video btn btn-danger"><i class="bi bi-camera-video-off-fill"></i></button>
+                                        <button class="capture btn btn-dark">Capture</button>
+                                        <button class="reset btn btn-dark mx-3">Retake</button>
+                                        <button class="upload btn btn-dark">Upload</button>
+                                        <button class="video btn btn-danger mx-3"><i class="bi bi-camera-video-off-fill"></i></button>
+                                        <button class="btn btn-dark" data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -98,18 +100,19 @@
 
         <!-- This section is for the UPDATE USER modal -->
         <section>
-            <div class="updateUserModal modal fade" tabindex="-1">
+            <div class="updateUserModal modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content" ng-controller="updateUser">
                         <div class="modal-body m-3">
                             <div class="d-flex justify-content-center">
-                                <input class="form-control" type="text" name="username" ng-model="username" placeholder="Username">
+                                <input class="form-control" type="text" name="username" ng-model="username" placeholder="Username" disabled>
                             </div>
                             <div class="d-flex justify-content-center my-3">
                                 <input class="form-control" type="text" name="password" ng-model="password" placeholder="Password">
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-warning" ng-click="updateUser()">Update</button>
+                                <button type="submit" class="btn btn-warning me-3" ng-click="updateUser()">Update</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -119,7 +122,7 @@
 
         <!-- This section is for the UPDATE STUDENT modal -->
         <section>
-            <div class="updateStudentModal modal fade" tabindex="-1">
+            <div class="updateStudentModal modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content" ng-controller="updateStudent">
                         <div class="modal-body">
@@ -141,8 +144,24 @@
                                 <select class="ms-3 form-select" ng-model="selectedLevel" ng-options="studentLevel for studentLevel in levels" id="level"></select>
                             </div>
                             <div class="d-flex justify-content-center mt-3">
-                                <button type="submit" class="btn btn-warning" ng-click="updateStudent()">Update</button>
+                                <button type="submit" class="btn btn-warning me-3" ng-click="updateStudent()">Update</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- This section is for the DELETE CONFIRMATION -->
+        <section>
+            <div class="removeConfirmation modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body d-flex justify-content-center align-items-center">
+                            <span>Delete this record?</span>
+                            <button class="yesBtn btn btn-white shadow mx-3">Yes</button>
+                            <button class="btn btn-white shadow" data-bs-dismiss="modal">No</button>
                         </div>
                     </div>
                 </div>
@@ -165,8 +184,8 @@
                             <td>{{ student.course }}</td>
                             <td>{{ student.level }}</td>
                             <td>
-                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target=".updateStudentModal" ng-click="updateStudent(student.idno,student.imagepath)"><i class="bi bi-pencil-square"></i></button>
-                                <button class="btn btn-danger" ng-click="remove(student.idno)">&times;</button>
+                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target=".updateStudentModal" ng-click="updateStudent(student.idno,student.lastname,student.firstname,student.imagepath)"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target=".removeConfirmation" ng-click="remove(student.idno)">&times;</button>
                             </td>
                         </tr>
                     </tbody>
@@ -190,8 +209,8 @@
                             <td>{{ user.username }}</td>
                             <td>{{ user.password }}</td>
                             <td>
-                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target=".updateUserModal" ng-click="updateUser(user.id)"><i class="bi bi-pencil-square"></i></button>
-                                <button class="btn btn-danger" ng-click="remove(user.id)">&times;</button>
+                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target=".updateUserModal" ng-click="updateUser(user.username,user.id)"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target=".removeConfirmation" ng-click="remove(user.id)">&times;</button>
                             </td>
                         </tr>
                     </tbody>
